@@ -1,0 +1,26 @@
+{
+    "orderList": [
+        {
+            "oderid": "1000001",
+            "customerName": "Max",
+            "address": "Dhaka,Bangladesh",
+            "orderDate": "Oct 20,2022",
+            "status": "yes"
+            
+        },
+        {
+            "oderid": "1000002",
+            "customerName": "John",
+            "address": "Sylhet,Banglagesh",
+            "orderDate": "Nov 13,2022",
+            "status": "no"
+        },
+        {
+            "oderid": "1000003",
+            "customerName": "Maria",
+            "address": "Jamalpur,Dhaka,Bangladesh",
+            "orderDate": "Oct 20,2022",
+            "status": "yes"
+        }
+    ]
+}

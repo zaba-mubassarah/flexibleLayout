@@ -1,0 +1,30 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "task.shanita",
+        "type": "application",
+        "applicationVersion": {
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "task.shanita.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "fcl"
+        },
+        "dependencies": {
+            "minUI5Version": "1.98.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.f": {},
+                "sap.uxap": {}
+            }
+        },
+        "config": {
+            "fullWidth": true
+        }
+    }
+}
