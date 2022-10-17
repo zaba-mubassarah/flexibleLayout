@@ -1,53 +1,61 @@
-<mvc:View controllerName="task.shanita.controller.Master" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:m="sap.m" height="100%">
+<mvc:View controllerName="task.shanita.controller.OrderForm" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
     <FlexBox alignItems="End" justifyContent="End">
         <items>
-            <Button id="cancel_button" icon="sap-icon://decline" type="Accept" press="onCancelClick" />
+            <Button id="cancel_button" icon="sap-icon://decline" type="Accept" press="onCancelPressed" />
         </items>
     </FlexBox>
-    <f:SimpleForm id="create_simpleform" editable="true" layout="ResponsiveGridLayout" title="Add Order">
-        <f:content>
-            <Label id="app_label_customerid" text="Order No" labelFor="app_input_customerid" />
-            <Input id="app_input_customerid" value="{/customerid}" />
 
-            <Label text="Customer Name" />
-            <Label text="Customer Name" labelFor="multiInput" />
-            <MultiInput id="multiInput" valueHelpRequest=".onOpenDialog" suggestionRows="{
-				path: '/ZSALESREPORT',
-				length: 10
-			}">
-                <suggestionColumns>
-                    <Column>
-                        <Label text="Product Code" />
-                    </Column>
-                    <Column>
-                        <Label text="Product Name" />
-                    </Column>
-                </suggestionColumns>
-                <suggestionRows>
-                    <ColumnListItem>
-                        <Label text="{ProductCode}" />
-                        <Label text="{ProductName}" />
-                    </ColumnListItem>
-                </suggestionRows>
-            </MultiInput>
+    <f:Form id="detail_form" editable="true">
+        <f:title>
+            <core:Title text="Add Order" />
+        </f:title>
+        <f:layout>
+            <f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false" />
+        </f:layout>
+        <f:formContainers>
+            <f:FormContainer>
+                <f:formElements>
+                    <f:FormElement label="Order No">
+                        <f:fields>
+                            <Input id="app_input_orderno" value="" />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="Customer Name">
+                        <f:fields>
+                            <Input id="app_input_customername" value="" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" width="100%" class="sapUiSmallMarginBottom" />
+                        </f:fields>
+                    </f:FormElement>
 
-            <Label id="app_label_country" text="Country" labelFor="app_select_gender" />
-            <Select id="app_selec_country" selectedKey="{/gender}" items="{genderModel>/genders}">
-                <items>
-                    <core:Item key="{genderModel>}" text="{= ${genderModel>}==='male' ?${i18n>male} : ${i18n>female}}" />
-                </items>
-            </Select>
+                    <f:FormElement>
+                        <FlexBox>
+                            <items>
+                                <FlexBox id="countryFlexBox" direction="Column" width="100%" class="sapUiTinyMarginEnd">
+                                    <Label id="app_label_country" text="Country" labelFor="app_input_country" />
+                                    <ComboBox width="100%" id="app_input_country" selectedKey="{gender}" items="{oCountry>/countryList}" change="onCountryChange">
+                                        <items>
+                                            <core:Item key="{oCountry>countryId>}" text="{oCountry>countryName}" />
+                                        </items>
+                                    </ComboBox>
+                                </FlexBox>
+                                <FlexBox id="cityFlexBox" direction="Column" width="100%">
+                                    <Label id="app_label_city" text="City" labelFor="app_input_city" />
 
-            <Label id="app_label_gender" text="City" labelFor="app_select_gender" />
-            <Select id="app_select_gender" selectedKey="{/gender}" items="{genderModel>/genders}">
-                <items>
-                    <core:Item key="{genderModel>}" text="{= ${genderModel>}==='male' ?${i18n>male} : ${i18n>female}}" />
-                </items>
-            </Select>
-
-            <Label id="app_label_email" text="Date" labelFor="app_input_email" />
-
-            <DatePicker id="DP1" placeholder="Enter Date" change="handleChange" class="sapUiSmallMarginBottom" />
-        </f:content>
-    </f:SimpleForm>
+                                    <Select width="100%" id="app_input_city" selectedKey="{gender}" items="{oCityModel>/cityLists}" change="onCountryChange">
+                                        <items>
+                                            <core:Item key="{oCityModel>cityId>}" text="{oCityModel>cityName}" />
+                                        </items>
+                                    </Select>
+                                </FlexBox>
+                            </items>
+                        </FlexBox>
+                    </f:FormElement>
+                    <f:FormElement label="Date">
+                        <f:fields>
+                            <DatePicker id="app_input_date" placeholder="Enter Date" change="handleChange" class="sapUiSmallMarginBottom" />
+                        </f:fields>
+                    </f:FormElement>
+                </f:formElements>
+            </f:FormContainer>
+        </f:formContainers>
+    </f:Form>
 </mvc:View>

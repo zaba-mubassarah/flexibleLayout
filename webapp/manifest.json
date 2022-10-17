@@ -28,17 +28,17 @@
             "libs": {
                 "sap.ui.core": {},
                 "sap.m": {},
+                "sap.ui.table": {},
                 "sap.f": {},
-                "sap.uxap": {}
+                "sap.uxap": {},
+                "sap.ui.webc.main": {}
             }
         },
         "config": {
             "fullWidth": true
         },
         "models": {
-            "invoice": {
-                "dataSource": "invoiceRemote"
-            }
+            
         }
     }
 }

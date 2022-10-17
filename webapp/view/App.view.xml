@@ -1,5 +1,5 @@
 <mvc:View displayBlock="true" height="100%" xmlns:flex="sap.f" xmlns:mvc="sap.ui.core.mvc">
-    <flex:DynamicPage id="page" title="{i18n>title}" toggleHeaderOnTitleClick="false" class="sapUiContentPadding">
+    <flex:DynamicPage id="page" title="dd" toggleHeaderOnTitleClick="false" class="sapUiContentPadding">
         <flex:content>
             <flex:FlexibleColumnLayout id="flexibleColumnLayout" backgroundDesign="Solid">
                 <flex:beginColumnPages>

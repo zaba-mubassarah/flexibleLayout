@@ -1,0 +1,61 @@
+{
+    "countryList": [
+        {
+            "countryId": "1",
+            "countryName": "Bangladesh",          
+            "cityList": [
+                {
+                    "cityId": "1",
+                    "cityName": "Dhaka"                                                       
+                    } ,
+                    {
+                        "cityId": "2",
+                        "cityName": "Chattogram"                                                       
+                    },
+                    {
+                        "cityId": "3",
+                        "cityName": "Sylhet"                                                       
+                    }                              
+                ]
+                
+            },
+            {
+                "countryId": "2",
+                "countryName": "India",          
+                "cityList": [
+                    {
+                        "cityId": "1",
+                        "cityName": "Gujrat"                                                       
+                        }  ,
+                        {
+                            "cityId": "2",
+                            "cityName": "Panjab"                                                       
+                        },
+                        {
+                            "cityId": "3",
+                            "cityName": "kalkata"                                                       
+                        }                              
+                    ]
+                    
+                },
+                {
+                    "countryId": "3",
+                    "countryName": "Pakistan",          
+                    "cityList": [
+                        {
+                            "cityId": "1",
+                            "cityName": "Islamabad"                                                       
+                            } ,
+                            {
+                                "cityId": "2",
+                                "cityName": "Kashmir"                                                       
+                            },
+                            {
+                                "cityId": "3",
+                                "cityName": "Karachi"                                                       
+                            }                              
+                        ]
+                        
+                    }
+                ]
+            }

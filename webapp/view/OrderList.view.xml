@@ -1,52 +1,58 @@
-<mvc:View controllerName="task.shanita.controller.Master" xmlns="sap.ui.table" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:m="sap.m" height="100%">
-    <m:Page showHeader="false" enableScrolling="false" class="sapUiContentPadding">
-        <m:content>
-            <Table id="table" selectionMode="None" rows="{orders>/orderList}" enableCellFilter="{ui>/cellFilterOn}" filter="filterPrice" ariaLabelledBy="title">
-                <extension>
-                    <m:OverflowToolbar style="Clear">
-                        <m:Title id="title" text="Orders" />
-                        <m:ToolbarSpacer />
+<mvc:View
+    controllerName="task.shanita.controller.Master"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:flex="sap.f"
+    displayBlock="true"
+    xmlns:m="sap.m"
+    xmlns="sap.ui.table"
+    xmlns:c="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+    xmlns:l="sap.ui.layout"
+    xmlns:semantic="sap.f.semantic"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+    <Table id="table" rows="{oOrderModel>/orderList}" rowSelectionChange=".onItemSelected" selectionBehavior="RowOnly" visibleRowCount="15" selectionMode="Single">
+        <extension>
+            <m:OverflowToolbar style="Clear">
+                <m:Title id="title" text="Orders" />
+                <m:ToolbarSpacer />
 
-                        <m:Button text="Add" icon="sap-icon://add" tooltip="Clear all filters" press="onListItemPress" />
-                        <m:ToolbarSeparator />
-                    </m:OverflowToolbar>
-                </extension>
-                <columns>
-                    <Column width="11rem" filterProperty="oderid">
-                        <m:Label text="Order Id" />
-                        <template>
-                            <m:Text text="{orders>oderid}" wrapping="false" />
-                        </template>
-                    </Column>
-                    <Column width="11rem" filterProperty="customerName" defaultFilterOperator="StartsWith">
-                        <m:Label text="Customer Name" />
-                        <template>
-                            <m:Text text="{orders>customerName}" wrapping="false" />
-                        </template>
-                    </Column>
-                    <Column width="9rem">
-                        <m:Label text="Address" />
-                        <template>
-                            <m:Text text="{orders>address}" />
-                        </template>
-                    </Column>
-                    <Column width="9rem">
-                        <m:Label text="Status" />
-                        <template>
-                            <m:Button icon="{= ${orders>status} === 'yes' ? 'sap-icon://accept' :  'sap-icon://notification'}" tooltip="show indices of selected items" press="getSelectedIndices" />
-                        </template>
-                    </Column>
-                    <Column width="9rem">
-                        <m:Label text="Action" />
-                        <template>
-                            <m:Button icon="sap-icon://delete" tooltip="show indices of selected items" press="getSelectedIndices" />
-                        </template>
-                    </Column>
-                </columns>
-                <footer>
-                    <m:OverflowToolbar id="infobar" />
-                </footer>
-            </Table>
-        </m:content>
-    </m:Page>
+                <m:Button id="new_button" icon="sap-icon://add" text="Add" type="Accept" press="onListItemPress" />
+            </m:OverflowToolbar>
+        </extension>
+
+        <columns>
+            <Column width="11rem" filterProperty="oderid">
+                <m:Label text="Order Id" />
+                <template>
+                    <m:Text text="{oOrderModel>oderid}" wrapping="false" />
+                </template>
+            </Column>
+            <Column width="11rem" filterProperty="customerName" defaultFilterOperator="StartsWith">
+                <m:Label text="Customer Name" />
+                <template>
+                    <m:Text text="{oOrderModel>customerName}" wrapping="false" />
+                </template>
+            </Column>
+            <Column width="9rem">
+                <m:Label text="Address" />
+                <template>
+                    <m:Text text="{oOrderModel>address}" />
+                </template>
+            </Column>
+            <Column width="9rem">
+                <m:Label text="Status" />
+                <template>
+                    <m:Button icon="{= ${oOrderModel>status} === 'yes' ? 'sap-icon://accept' :  'sap-icon://notification'}" tooltip="show indices of selected items" press="getSelectedIndices" />
+                </template>
+            </Column>
+            <Column width="9rem">
+                <m:Label text="Action" />
+                <template>
+                    <m:Button icon="sap-icon://delete" tooltip="show indices of selected items" press=".onDeleteButtonPressed(${oOrderModel>oderid})" />
+                </template>
+            </Column>
+        </columns>
+    </Table>
 </mvc:View>
