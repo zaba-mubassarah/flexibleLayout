@@ -6,6 +6,7 @@ sap.ui.define(
     "sap/ui/model/Sorter",
     "sap/m/MessageBox",
     "sap/f/library",
+    "sap/ui/core/Fragment",
   ],
   function (
     Controller,
@@ -13,7 +14,8 @@ sap.ui.define(
     FilterOperator,
     Sorter,
     MessageBox,
-    fioriLibrary
+    fioriLibrary,
+    Fragment
   ) {
     "use strict";
 
@@ -52,10 +54,30 @@ sap.ui.define(
 
         oBinding.sort(oSorter);
       },
+      onOpenDialog: function () {
+        // create dialog lazily
+        if (!this.pDialog) {
+          this.pDialog = this.loadFragment({
+            name: "task.shanita.view.HelloDialog",
+          });
+        }
+        this.pDialog.then(function (oDialog) {
+          oDialog.open();
+        });
+      },
 
+      onCloseDialog: function () {
+        // note: We don't need to chain to the pDialog promise, since this event-handler
+        // is only called from within the loaded dialog itself.
+        this.byId("helloDialog").close();
+      },
       onListItemPress: function () {
         var oFCL = this.oView.getParent().getParent();
-        oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsMidExpanded);
+        oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsBeginExpanded);
+      },
+      onCancelClick: function () {
+        var oFCL = this.oView.getParent().getParent();
+        oFCL.setLayout(fioriLibrary.LayoutType.OneColumn);
       },
     });
   }

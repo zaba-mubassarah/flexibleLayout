@@ -1,68 +1,53 @@
-<mvc:View xmlns="sap.uxap" xmlns:m="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
-    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true" upperCaseAnchorBar="false">
-        <headerTitle>
-            <ObjectPageDynamicHeaderTitle>
-                <actions>
-                    <m:ToggleButton text="Edit" type="Emphasized" />
-                    <m:Button text="Delete" type="Transparent" />
-                    <m:Button text="Copy" type="Transparent" />
-                    <m:Button icon="sap-icon://action" type="Transparent" />
-                </actions>
-            </ObjectPageDynamicHeaderTitle>
-        </headerTitle>
+<mvc:View controllerName="task.shanita.controller.Master" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:m="sap.m" height="100%">
+    <FlexBox alignItems="End" justifyContent="End">
+        <items>
+            <Button id="cancel_button" icon="sap-icon://decline" type="Accept" press="onCancelClick" />
+        </items>
+    </FlexBox>
+    <f:SimpleForm id="create_simpleform" editable="true" layout="ResponsiveGridLayout" title="Add Order">
+        <f:content>
+            <Label id="app_label_customerid" text="Order No" labelFor="app_input_customerid" />
+            <Input id="app_input_customerid" value="{/customerid}" />
 
-        <headerContent>
-            <m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Stretch">
-                <f:Avatar displaySize="L" displayShape="Square" class="sapUiTinyMarginEnd" />
-                <m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
-                    <m:Label text="Main Category" />
-                </m:VBox>
-                <m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
-                    <m:Label text="Subcategory" />
-                </m:VBox>
-                <m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
-                    <m:Label text="Price" />
-                </m:VBox>
-            </m:FlexBox>
-        </headerContent>
+            <Label text="Customer Name" />
+            <Label text="Customer Name" labelFor="multiInput" />
+            <MultiInput id="multiInput" valueHelpRequest=".onOpenDialog" suggestionRows="{
+				path: '/ZSALESREPORT',
+				length: 10
+			}">
+                <suggestionColumns>
+                    <Column>
+                        <Label text="Product Code" />
+                    </Column>
+                    <Column>
+                        <Label text="Product Name" />
+                    </Column>
+                </suggestionColumns>
+                <suggestionRows>
+                    <ColumnListItem>
+                        <Label text="{ProductCode}" />
+                        <Label text="{ProductName}" />
+                    </ColumnListItem>
+                </suggestionRows>
+            </MultiInput>
 
-        <sections>
-            <ObjectPageSection title="General Information">
-                <subSections>
-                    <ObjectPageSubSection>
-                        <blocks>
-                            <form:SimpleForm maxContainerCols="2" editable="false" layout="ResponsiveGridLayout" labelSpanL="12" labelSpanM="12" emptySpanL="0" emptySpanM="0" columnsL="1" columnsM="1">
-                                <form:content>
-                                    <m:Label text="Product ID" />
-                                    <m:Label text="Description" />
-                                    <m:Label text="Supplier" />
-                                </form:content>
-                            </form:SimpleForm>
-                        </blocks>
-                    </ObjectPageSubSection>
-                </subSections>
-            </ObjectPageSection>
+            <Label id="app_label_country" text="Country" labelFor="app_select_gender" />
+            <Select id="app_selec_country" selectedKey="{/gender}" items="{genderModel>/genders}">
+                <items>
+                    <core:Item key="{genderModel>}" text="{= ${genderModel>}==='male' ?${i18n>male} : ${i18n>female}}" />
+                </items>
+            </Select>
 
-            <ObjectPageSection title="Suppliers">
-                <subSections>
-                    <ObjectPageSubSection>
-                        <blocks>
-                            <m:Table id="suppliersTable" items="{path : 'orders>/orderList'}">
-                                <m:columns>
-                                    <m:Column />
-                                </m:columns>
-                                <m:items>
-                                    <m:ColumnListItem type="Navigation">
-                                        <m:cells>
-                                            <m:ObjectIdentifier text="{orders>customerName}" />
-                                        </m:cells>
-                                    </m:ColumnListItem>
-                                </m:items>
-                            </m:Table>
-                        </blocks>
-                    </ObjectPageSubSection>
-                </subSections>
-            </ObjectPageSection>
-        </sections>
-    </ObjectPageLayout>
+            <Label id="app_label_gender" text="City" labelFor="app_select_gender" />
+            <Select id="app_select_gender" selectedKey="{/gender}" items="{genderModel>/genders}">
+                <items>
+                    <core:Item key="{genderModel>}" text="{= ${genderModel>}==='male' ?${i18n>male} : ${i18n>female}}" />
+                </items>
+            </Select>
+
+            <Label id="app_label_email" text="Date" labelFor="app_input_email" />
+
+            <DatePicker id="DP1" placeholder="Enter Date" change="handleChange" class="sapUiSmallMarginBottom" />
+        </f:content>
+    </f:SimpleForm>
 </mvc:View>

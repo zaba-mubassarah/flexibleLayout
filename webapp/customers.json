@@ -1,0 +1,44 @@
+{
+    "customerList": [
+        {
+            "custId": "1000001",
+            "customerName": "Shanita",
+            "mobile": "01915767654",
+            "email": "shani@gmail.com"
+            
+            
+        },
+        {
+            "custId": "1000001",
+            "customerName": "Zeba",
+            "mobile": "01674563898",
+            "email": "zeba@gmail.com"
+            
+            
+        },
+        {
+            "custId": "1000001",
+            "customerName": "Anin",
+            "mobile": "0273499212",
+            "email": "anin@gmail.com"
+            
+            
+        },
+        {
+            "custId": "1000001",
+            "customerName": "Max",
+            "mobile": "01973627382",
+            "email": "putin@gmail.com"
+            
+            
+        },
+        {
+            "custId": "1000001",
+            "customerName": "Tinku",
+            "mobile": "01973627382",
+            "email": "tinku@gmail.com"
+            
+            
+        }
+    ]
+}

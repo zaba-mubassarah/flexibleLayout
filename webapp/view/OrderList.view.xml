@@ -9,7 +9,6 @@
 
                         <m:Button text="Add" icon="sap-icon://add" tooltip="Clear all filters" press="onListItemPress" />
                         <m:ToolbarSeparator />
-                        <m:SearchField placeholder="Filter" value="{ui>/globalFilter}" search="filterGlobally" width="15rem" />
                     </m:OverflowToolbar>
                 </extension>
                 <columns>
@@ -35,6 +34,12 @@
                         <m:Label text="Status" />
                         <template>
                             <m:Button icon="{= ${orders>status} === 'yes' ? 'sap-icon://accept' :  'sap-icon://notification'}" tooltip="show indices of selected items" press="getSelectedIndices" />
+                        </template>
+                    </Column>
+                    <Column width="9rem">
+                        <m:Label text="Action" />
+                        <template>
+                            <m:Button icon="sap-icon://delete" tooltip="show indices of selected items" press="getSelectedIndices" />
                         </template>
                     </Column>
                 </columns>

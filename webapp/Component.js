@@ -19,6 +19,17 @@ sap.ui.define(
         );
         oOrdersModel.setSizeLimit(1000);
         this.setModel(oOrdersModel, "orders");
+
+        var oCustModel = new JSONModel(
+          sap.ui.require.toUrl("task/shanita/customers.json")
+        );
+        oCustModel.setSizeLimit(1000);
+        this.setModel(oCustModel, "cust");
+        // oCustomerModel = new JSONModel(
+        //   sap.ui.require.toUrl("task/shanita/customers.json")
+        // );
+        // oCustomerModel.setSizeLimit(1000);
+        // this.setModel(oCustomerModel, "customers");
       },
     });
   }
