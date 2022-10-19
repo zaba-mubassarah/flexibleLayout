@@ -31,7 +31,7 @@
                             <items>
                                 <FlexBox id="countryFlexBox" direction="Column" width="100%" class="sapUiTinyMarginEnd">
                                     <Label id="app_label_country" text="Country" labelFor="app_input_country" />
-                                    <Select width="100%" id="app_input_country" selectedKey="{gender}" items="{oCountry>/countryList}" change="onCountryChange">
+                                    <Select width="100%" id="app_input_country" selectedKey="{gender}" items="{oCountry>/countryList}" change="onCountryChange" forceSelection="false">
                                         <items>
                                             <core:Item key="{oCountry>countryId>}" text="{oCountry>countryName}" />
                                         </items>
@@ -40,7 +40,7 @@
                                 <FlexBox id="cityFlexBox" direction="Column" width="100%">
                                     <Label id="app_label_city" text="City" labelFor="app_input_city" />
 
-                                    <Select width="100%" id="app_input_city" selectedKey="{gender}" items="{oCityModel>/cityLists}" change="onCountryChange">
+                                    <Select width="100%" id="app_input_city" selectedKey="{gender}" items="{oCityModel>/cityLists}" change="onCountryChange" forceSelection="false">
                                         <items>
                                             <core:Item key="{oCityModel>cityId>}" text="{oCityModel>cityName}" />
                                         </items>

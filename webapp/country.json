@@ -1,20 +1,11 @@
 {
     "countryList": [
-        {
-            "countryId": "",
-            "countryName": "",
-            "cityList": [
-                
-            ]
-        },
+        
         {
             "countryId": "1",
             "countryName": "Bangladesh",
             "cityList": [
-                {
-                    "cityId": "",
-                    "cityName": ""
-                },
+                
                 {
                     "cityId": "1",
                     "cityName": "Dhaka"
@@ -33,20 +24,17 @@
             "countryId": "2",
             "countryName": "India",
             "cityList": [
+                
                 {
-                    "cityId": "",
-                    "cityName": ""
-                },
-                {
-                    "cityId": "1",
+                    "cityId": "4",
                     "cityName": "Gujrat"
                 },
                 {
-                    "cityId": "2",
+                    "cityId": "5",
                     "cityName": "Panjab"
                 },
                 {
-                    "cityId": "3",
+                    "cityId": "6",
                     "cityName": "kalkata"
                 }
             ]
@@ -55,20 +43,17 @@
             "countryId": "3",
             "countryName": "Pakistan",
             "cityList": [
+                
                 {
-                    "cityId": "",
-                    "cityName": ""
-                },
-                {
-                    "cityId": "1",
+                    "cityId": "7",
                     "cityName": "Islamabad"
                 },
                 {
-                    "cityId": "2",
+                    "cityId": "8",
                     "cityName": "Kashmir"
                 },
                 {
-                    "cityId": "3",
+                    "cityId": "9",
                     "cityName": "Karachi"
                 }
             ]

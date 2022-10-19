@@ -37,6 +37,48 @@
         "config": {
             "fullWidth": true
         },
+        
+        "routing": {
+            "config": {
+                "routerClass": "sap.f.routing.Router",
+                "type": "View",
+                "viewType": "XML",
+                "path": "task.shanita.view",
+                "controlId": "flexibleColumnLayout",
+                "transition": "slide",
+                "bypassed": {
+                },
+                "async": true
+            },
+            "routes": [
+                {
+                    "pattern": ":layout:",
+                    "name": "master",
+                    "target": [
+                        "master",
+                        "orderForm"
+                    ]
+                },
+                {
+                    "pattern": "orderForm/{orderId}/{layout}",
+                    "name": "orderForm",
+                    "target": [
+                        "master",
+                        "orderForm"
+                    ]
+                }
+            ],
+            "targets": {
+                "master": {
+                    "name": "OrderList",
+                    "controlAggregation": "beginColumnPages"
+                },
+                "orderForm": {
+                    "name": "OrderForm",
+                    "controlAggregation": "midColumnPages"
+                }
+            }
+        },
         "models": {
             
         }

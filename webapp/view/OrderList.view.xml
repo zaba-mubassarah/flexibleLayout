@@ -1,5 +1,5 @@
 <mvc:View controllerName="task.shanita.controller.Master" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:m="sap.m" xmlns="sap.ui.table">
-    <Table id="table" rows="{oOrderModel>/orderList}" rowSelectionChange=".onItemSelected" selectionBehavior="RowOnly" visibleRowCount="15" selectionMode="Single">
+    <Table id="table" rows="{oOrderModel>/orderList}" selectionBehavior="RowOnly" visibleRowCount="15" selectionMode="Single">
         <extension>
             <m:OverflowToolbar style="Clear">
                 <m:Title id="title" text="Orders" />
@@ -37,8 +37,13 @@
             <Column width="9rem">
                 <m:Label text="Action" />
                 <template>
-                    <m:Button icon="sap-icon://delete" tooltip="show indices of selected items" press=".onDeleteButtonPressed(${oOrderModel>oderid})" visible="{oOrderModel>delBtnVisible}" />
+                    <m:HBox>
+                        <m:Button icon="sap-icon://delete" press=".onDeleteButtonPressed(${oOrderModel>oderid})" visible="{oOrderModel>delBtnVisible}" class="sapUiSmallMarginEnd" />
+                        <m:Button icon="sap-icon://navigation-right-arrow" press=".onItemSelected(${oOrderModel>status},${oOrderModel>oderid})" />
+                    </m:HBox>
                 </template>
+
+                <template />
             </Column>
         </columns>
     </Table>

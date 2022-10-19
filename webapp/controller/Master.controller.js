@@ -26,15 +26,31 @@ sap.ui.define(
     "use strict";
 
     return Controller.extend("task.shanita.controller.Master", {
-      onInit: function () {
-        this.oView = this.getView();
-        var oOrderModel = new JSONModel(
-          sap.ui.require.toUrl("task/shanita/orders.json")
+      onInit: async function () {
+        var dataFromLocalStorage = JSON.parse(
+          localStorage.getItem("ordersInLocal")
         );
+
+        this.oView = this.getView();
+        var oOrderModel = new JSONModel(dataFromLocalStorage);
+
+        await this.getView().setModel(oOrderModel, "oOrderModel");
+
+        this.oOwnerComponent = this.getOwnerComponent();
+        this.oRouter = this.oOwnerComponent.getRouter();
+        this.oRouter.attachRouteMatched(this.onRouteMatched, this);
+      },
+      onRouteMatched: function (oEvent) {
+        var dataFromLocalStorage = JSON.parse(
+          localStorage.getItem("ordersInLocal")
+        );
+        console.log("dataFromLocalStorage", dataFromLocalStorage);
+        var oOrderModel = new JSONModel(dataFromLocalStorage);
+
         this.getView().setModel(oOrderModel, "oOrderModel");
+        this.getView().getModel().refresh();
       },
       onDeleteButtonPressed: function (id) {
-        console.log("DSDSDSD", id);
         var orderData = this.getView()
           .getModel("oOrderModel")
           .getData().orderList;
@@ -173,53 +189,29 @@ sap.ui.define(
           }.bind(this)
         );
       },
-      onAdd: function () {
-        MessageBox.information("This functionality is not ready yet.", {
-          title: "Aw, Snap!",
-        });
-      },
 
-      onSort: function () {
-        this._bDescendingSort = !this._bDescendingSort;
-        var oBinding = this.oProductsTable.getBinding("items"),
-          oSorter = new Sorter("Name", this._bDescendingSort);
-
-        oBinding.sort(oSorter);
-      },
-      onItemSelected(oEvent) {
-        console.log("heeyy");
-        let oData = oEvent.getParameter("rowContext").getObject();
-        if (oData.status === "yes") {
+      onItemSelected(data, orderId) {
+        if (data === true) {
           MessageToast.show("Order already delivered");
         } else {
-          var oFCL = this.oView.getParent().getParent();
-          oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsBeginExpanded);
-        }
-      },
-      onOpenDialog: function () {
-        // create dialog lazily
-        if (!this.pDialog) {
-          this.pDialog = this.loadFragment({
-            name: "task.shanita.view.HelloDialog",
+          this.oRouter.navTo("orderForm", {
+            layout: fioriLibrary.LayoutType.TwoColumnsBeginExpanded,
+            orderId: orderId,
           });
         }
-        this.pDialog.then(function (oDialog) {
-          oDialog.open();
-        });
       },
 
-      onCloseDialog: function () {
-        // note: We don't need to chain to the pDialog promise, since this event-handler
-        // is only called from within the loaded dialog itself.
-        this.byId("helloDialog").close();
-      },
-      onListItemPress: function () {
-        var oFCL = this.oView.getParent().getParent();
-        oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsBeginExpanded);
-      },
-      onCancelClick: function () {
-        var oFCL = this.oView.getParent().getParent();
-        oFCL.setLayout(fioriLibrary.LayoutType.OneColumn);
+      onListItemPress: function (oEvent) {
+        // var productPath = oEvent
+        //     .getSource()
+        //     .getBindingContext("oOrderModel")
+        //     .getPath(),
+        //   product = productPath.split("/").slice(-1).pop();
+
+        this.oRouter.navTo("orderForm", {
+          layout: fioriLibrary.LayoutType.TwoColumnsBeginExpanded,
+          orderId: 0,
+        });
       },
     });
   }

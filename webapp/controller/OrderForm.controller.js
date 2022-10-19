@@ -35,6 +35,20 @@ sap.ui.define(
         );
         await this.getView().setModel(oCountry, "oCountry");
         console.log(this.getView().getModel("oCountry"));
+
+        var oOwnerComponent = this.getOwnerComponent();
+
+        this.oRouter = oOwnerComponent.getRouter();
+        this.oModel = oOwnerComponent.getModel();
+      },
+
+      onExit: function () {
+        this.oRouter
+          .getRoute("master")
+          .detachPatternMatched(this._onProductMatched, this);
+        this.oRouter
+          .getRoute("detail")
+          .detachPatternMatched(this._onProductMatched, this);
       },
       onCountryChange: function (oEvent) {
         console.log("Ssssss");
@@ -51,10 +65,13 @@ sap.ui.define(
         this.getView().setModel(oCityModel, "oCityModel");
       },
 
-      onCancelPressed() {
-        var oFCL = this.oView.getParent().getParent();
-        console.log("oFCL", oFCL);
-        oFCL.setLayout(fioriLibrary.LayoutType.OneColumn);
+      onCancelPressed: function (oEvent) {
+        // var oFCL = this.oView.getParent().getParent().getParent();
+        // console.log("oFCL", oFCL);
+        // oFCL.setLayout(fioriLibrary.LayoutType.OneColumn);
+        this.oRouter.navTo("master", {
+          layout: fioriLibrary.LayoutType.OneColumn,
+        });
       },
       handleValueHelp: function () {
         var oView = this.getView();
@@ -96,15 +113,33 @@ sap.ui.define(
         //console.log("gender", gender);
 
         let newEntry = {
-          orderNo: orderNo,
+          oderid: orderNo,
           customerName: customerName,
-          countryName: countryName,
-          cityName: cityName,
-          date: date,
+          address: `${countryName},${cityName}`,
+          orderDate: date,
           status: false,
           delBtnVisible: true,
         };
+        if (!localStorage.getItem("ordersInLocal")) {
+          var orderJsondata = {
+            orderList: [newEntry],
+          };
+          localStorage.setItem("ordersInLocal", JSON.stringify(orderJsondata));
+        } else {
+          const localStoragedata = JSON.parse(
+            localStorage.getItem("ordersInLocal")
+          );
 
+          localStoragedata.orderList.push(newEntry);
+          localStorage.setItem(
+            "ordersInLocal",
+            JSON.stringify(localStoragedata)
+          );
+        }
+
+        this.oRouter.navTo("master", {
+          layout: fioriLibrary.LayoutType.OneColumn,
+        });
         this.byId("app_input_orderno").setValue("");
         this.byId("app_input_customername").setValue("");
         this.getView().byId("app_input_country").setSelectedItem("");
@@ -121,18 +156,7 @@ sap.ui.define(
 
         oInput.setValue(oSelectedItem.getCells()[1].getTitle());
       },
-      _configValueHelpDialog: function () {
-        var sInputValue = this.byId("app_input_customername").getValue(),
-          oModel = this.getView().getModel(),
-          customers = oModel.getProperty("/customerList");
 
-        customers.forEach(function (cust) {
-          cust.selected = cust.customerName === sInputValue;
-        });
-
-        oModel.setProperty("/customerList", customers);
-        //console.log("sInputValue", selected);
-      },
       handleSearch: function (oEvent) {
         var sValue = oEvent.getParameter("value");
 
