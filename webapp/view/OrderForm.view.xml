@@ -1,4 +1,4 @@
-<mvc:View controllerName="task.shanita.controller.OrderForm" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
+<mvc:View controllerName="task.shanita.controller.OrderForm" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns="sap.m">
     <FlexBox alignItems="End" justifyContent="End">
         <items>
             <Button id="cancel_button" icon="sap-icon://decline" type="Accept" press="onCancelPressed" />
@@ -31,11 +31,11 @@
                             <items>
                                 <FlexBox id="countryFlexBox" direction="Column" width="100%" class="sapUiTinyMarginEnd">
                                     <Label id="app_label_country" text="Country" labelFor="app_input_country" />
-                                    <ComboBox width="100%" id="app_input_country" selectedKey="{gender}" items="{oCountry>/countryList}" change="onCountryChange">
+                                    <Select width="100%" id="app_input_country" selectedKey="{gender}" items="{oCountry>/countryList}" change="onCountryChange">
                                         <items>
                                             <core:Item key="{oCountry>countryId>}" text="{oCountry>countryName}" />
                                         </items>
-                                    </ComboBox>
+                                    </Select>
                                 </FlexBox>
                                 <FlexBox id="cityFlexBox" direction="Column" width="100%">
                                     <Label id="app_label_city" text="City" labelFor="app_input_city" />
@@ -51,11 +51,14 @@
                     </f:FormElement>
                     <f:FormElement label="Date">
                         <f:fields>
-                            <DatePicker id="app_input_date" placeholder="Enter Date" change="handleChange" class="sapUiSmallMarginBottom" />
+                            <DatePicker id="app_input_date" placeholder="Enter Date" class="sapUiSmallMarginBottom" />
                         </f:fields>
                     </f:FormElement>
                 </f:formElements>
             </f:FormContainer>
         </f:formContainers>
     </f:Form>
+    <FlexBox alignItems="Center" id="app_submit" direction="Column" width="100%">
+        <Button id="app_submit_btn" text="Submit" press="onSavePressed" visible="{editModel>/editmode}" />
+    </FlexBox>
 </mvc:View>

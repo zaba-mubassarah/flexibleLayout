@@ -22,10 +22,14 @@ sap.ui.define(
     return Controller.extend("task.shanita.controller.OrderForm", {
       onInit: async function () {
         this.oView = this.getView();
+        var oOrderModel = new JSONModel(
+          sap.ui.require.toUrl("task/shanita/orders.json")
+        );
+        this.getView().setModel(oOrderModel, "oOrderModel");
         var oModel = new JSONModel(
           sap.ui.require.toUrl("task/shanita/customers.json")
         );
-
+        await this.getView().setModel(oModel);
         var oCountry = new JSONModel(
           sap.ui.require.toUrl("task/shanita/country.json")
         );
@@ -33,6 +37,7 @@ sap.ui.define(
         console.log(this.getView().getModel("oCountry"));
       },
       onCountryChange: function (oEvent) {
+        console.log("Ssssss");
         let cityIndex = parseInt(
           oEvent.getParameters().selectedItem.sId.slice(-1)
         );
@@ -71,7 +76,41 @@ sap.ui.define(
           }.bind(this)
         );
       },
+      onSavePressed: function () {
+        var orderNo = this.byId("app_input_orderno").getValue();
 
+        var customerName = this.byId("app_input_customername").getValue();
+
+        var countryName = this.getView()
+          .byId("app_input_country")
+          .getSelectedItem()
+          .getText();
+
+        var cityName = this.getView()
+          .byId("app_input_city")
+          .getSelectedItem()
+          .getText();
+
+        var date = this.byId("app_input_date").getValue();
+        console.log("date", orderNo, customerName, countryName, cityName, date);
+        //console.log("gender", gender);
+
+        let newEntry = {
+          orderNo: orderNo,
+          customerName: customerName,
+          countryName: countryName,
+          cityName: cityName,
+          date: date,
+          status: false,
+          delBtnVisible: true,
+        };
+
+        this.byId("app_input_orderno").setValue("");
+        this.byId("app_input_customername").setValue("");
+        this.getView().byId("app_input_country").setSelectedItem("");
+        this.getView().byId("app_input_city").setSelectedItem("");
+        this.byId("app_input_date").setValue("");
+      },
       onCloseDialog(oEvent) {
         var oSelectedItem = oEvent.getParameter("selectedItem"),
           oInput = this.byId("app_input_customername");

@@ -5,7 +5,8 @@
             "customerName": "Max",
             "address": "Dhaka,Bangladesh",
             "orderDate": "Oct 20,2022",
-            "status": "yes"
+            "status": true,
+            "delBtnVisible":false
             
         },
         {
@@ -13,14 +14,16 @@
             "customerName": "John",
             "address": "Sylhet,Banglagesh",
             "orderDate": "Nov 13,2022",
-            "status": "no"
+            "status": false,
+            "delBtnVisible":true
         },
         {
             "oderid": "1000003",
             "customerName": "Maria",
             "address": "Jamalpur,Dhaka,Bangladesh",
             "orderDate": "Oct 20,2022",
-            "status": "yes"
+            "status": true,
+            "delBtnVisible":false
         }
     ]
 }
