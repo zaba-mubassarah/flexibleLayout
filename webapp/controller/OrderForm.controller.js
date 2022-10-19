@@ -7,6 +7,7 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/core/Popup",
+    "sap/m/MessageToast",
   ],
   function (
     Controller,
@@ -15,7 +16,8 @@ sap.ui.define(
     Fragment,
     Filter,
     FilterOperator,
-    Popup
+    Popup,
+    MessageToast
   ) {
     "use strict";
 
@@ -40,6 +42,22 @@ sap.ui.define(
 
         this.oRouter = oOwnerComponent.getRouter();
         this.oModel = oOwnerComponent.getModel();
+
+        this.oRouter
+          .getRoute("master")
+          .attachPatternMatched(this._onProductMatched, this);
+        this.oRouter
+          .getRoute("detail")
+          .attachPatternMatched(this._onProductMatched, this);
+      },
+
+      _onProductMatched: function (oEvent) {
+        this._product =
+          oEvent.getParameter("arguments").product || this._product || "0";
+        this.getView().bindElement({
+          path: "/ProductCollection/" + this._product,
+          model: "products",
+        });
       },
 
       onExit: function () {
@@ -93,7 +111,7 @@ sap.ui.define(
           }.bind(this)
         );
       },
-      onSavePressed: function () {
+      onSavePressed: async function () {
         var orderNo = this.byId("app_input_orderno").getValue();
 
         var customerName = this.byId("app_input_customername").getValue();
@@ -125,26 +143,36 @@ sap.ui.define(
             orderList: [newEntry],
           };
           localStorage.setItem("ordersInLocal", JSON.stringify(orderJsondata));
+          this.oRouter.navTo("master", {
+            layout: fioriLibrary.LayoutType.OneColumn,
+          });
         } else {
-          const localStoragedata = JSON.parse(
+          const localStoragedata2 = JSON.parse(
             localStorage.getItem("ordersInLocal")
           );
 
-          localStoragedata.orderList.push(newEntry);
-          localStorage.setItem(
-            "ordersInLocal",
-            JSON.stringify(localStoragedata)
+          const result = localStoragedata2.orderList.filter(
+            (word) => word.oderid == orderNo
           );
+          console.log("result", result.length);
+          if (result.length != 0) {
+            MessageToast.show("Order id already exist");
+          } else {
+            localStoragedata2.orderList.push(newEntry);
+            localStorage.setItem(
+              "ordersInLocal",
+              JSON.stringify(localStoragedata2)
+            );
+            this.oRouter.navTo("master", {
+              layout: fioriLibrary.LayoutType.OneColumn,
+            });
+            this.byId("app_input_orderno").setValue("");
+            this.byId("app_input_customername").setValue("");
+            this.getView().byId("app_input_country").setSelectedItem(null);
+            this.getView().byId("app_input_city").setSelectedItem(null);
+            this.byId("app_input_date").setValue("");
+          }
         }
-
-        this.oRouter.navTo("master", {
-          layout: fioriLibrary.LayoutType.OneColumn,
-        });
-        this.byId("app_input_orderno").setValue("");
-        this.byId("app_input_customername").setValue("");
-        this.getView().byId("app_input_country").setSelectedItem("");
-        this.getView().byId("app_input_city").setSelectedItem("");
-        this.byId("app_input_date").setValue("");
       },
       onCloseDialog(oEvent) {
         var oSelectedItem = oEvent.getParameter("selectedItem"),
@@ -156,7 +184,18 @@ sap.ui.define(
 
         oInput.setValue(oSelectedItem.getCells()[1].getTitle());
       },
+      _configValueHelpDialog: function () {
+        var sInputValue = this.byId("app_input_customername").getValue(),
+          oModel = this.getView().getModel(),
+          customers = oModel.getProperty("/customerList");
 
+        customers.forEach(function (cust) {
+          cust.selected = cust.customerName === sInputValue;
+        });
+
+        oModel.setProperty("/customerList", customers);
+        //console.log("sInputValue", selected);
+      },
       handleSearch: function (oEvent) {
         var sValue = oEvent.getParameter("value");
 

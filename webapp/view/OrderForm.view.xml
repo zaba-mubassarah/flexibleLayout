@@ -40,7 +40,7 @@
                                 <FlexBox id="cityFlexBox" direction="Column" width="100%">
                                     <Label id="app_label_city" text="City" labelFor="app_input_city" />
 
-                                    <Select width="100%" id="app_input_city" selectedKey="{gender}" items="{oCityModel>/cityLists}" change="onCountryChange" forceSelection="false">
+                                    <Select width="100%" id="app_input_city" selectedKey="{gender}" items="{oCityModel>/cityLists}" forceSelection="false">
                                         <items>
                                             <core:Item key="{oCityModel>cityId>}" text="{oCityModel>cityName}" />
                                         </items>

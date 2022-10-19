@@ -51,13 +51,22 @@ sap.ui.define(
         this.getView().getModel().refresh();
       },
       onDeleteButtonPressed: function (id) {
+        let dataFromLocalStorage = JSON.parse(
+          localStorage.getItem("ordersInLocal")
+        );
+        console.log(dataFromLocalStorage);
         var orderData = this.getView()
           .getModel("oOrderModel")
           .getData().orderList;
 
-        let filterdData = orderData.filter((item) => {
+        let filterdData = dataFromLocalStorage.orderList.filter((item) => {
           return item.oderid != id;
         });
+        console.log("filterdData", filterdData);
+        localStorage.setItem(
+          "ordersInLocal",
+          JSON.stringify({ orderList: filterdData })
+        );
         let oData = new JSONModel({
           orderList: filterdData,
         });
@@ -190,13 +199,15 @@ sap.ui.define(
         );
       },
 
-      onItemSelected(data, orderId) {
-        if (data === true) {
+      onItemSelected(oEvent) {
+        let oData = oEvent.getParameter("rowContext").getObject();
+        console.log("sadasd", oData);
+        if (oData.status === true) {
           MessageToast.show("Order already delivered");
         } else {
           this.oRouter.navTo("orderForm", {
             layout: fioriLibrary.LayoutType.TwoColumnsBeginExpanded,
-            orderId: orderId,
+            orderId: oData.oderid,
           });
         }
       },
