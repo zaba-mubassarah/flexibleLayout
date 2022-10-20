@@ -11,19 +11,19 @@
 
         <columns>
             <Column width="11rem" filterProperty="oderid">
-                <m:Label text="Order Id" />
+                <m:Label text="{i18n>orderNo}" />
                 <template>
                     <m:Text text="{oOrderModel>oderid}" wrapping="false" />
                 </template>
             </Column>
             <Column width="11rem" filterProperty="customerName" defaultFilterOperator="StartsWith">
-                <m:Label text="Customer Name" />
+                <m:Label text="{i18n>customerName}" />
                 <template>
                     <m:Text text="{oOrderModel>customerName}" wrapping="false" />
                 </template>
             </Column>
             <Column width="9rem">
-                <m:Label text="Address" />
+                <m:Label text="{i18n>address}" />
                 <template>
                     <m:Text text="{oOrderModel>address}" />
                 </template>
@@ -35,13 +35,13 @@
                 </template>
             </Column>
             <Column width="9rem">
-                <m:Label text="Status" />
+                <m:Label text="{i18n>status}" />
                 <template>
                     <m:Button icon="{= ${oOrderModel>status} === true ? 'sap-icon://accept' :  'sap-icon://notification'}" press=".onStatusChange(${oOrderModel>oderid},${oOrderModel>status})" tooltip="show indices of selected items" />
                 </template>
             </Column>
             <Column width="9rem">
-                <m:Label text="Action" />
+                <m:Label text="{i18n>action}" />
                 <template>
                     <m:HBox>
                         <m:Button icon="sap-icon://delete" press=".onApproveDialogPress(${oOrderModel>oderid})" class="sapUiSmallMarginBottom" ariaHasPopup="Dialog" visible="{oOrderModel>delBtnVisible}" />

@@ -1,6 +1,11 @@
 sap.ui.define(
-  ["sap/ui/core/UIComponent", "sap/ui/model/json/JSONModel", "sap/f/library"],
-  function (UIComponent, JSONModel, fioriLibrary) {
+  [
+    "sap/ui/core/UIComponent",
+    "sap/ui/model/json/JSONModel",
+    "sap/f/library",
+    "sap/ui/model/resource/ResourceModel",
+  ],
+  function (UIComponent, JSONModel, fioriLibrary, ResourceModel) {
     "use strict";
 
     return UIComponent.extend("task.shanita.Component", {
@@ -9,6 +14,14 @@ sap.ui.define(
       },
 
       init: function () {
+        console.log("component loaded?");
+        var oResourceModel = new ResourceModel({
+          bundleName: "task.shanita.i18n.i18n",
+          supportedLocales: ["", "de"],
+          fallbackLocale: "",
+        });
+        this.setModel(oResourceModel, "i18n");
+
         var oModel, oProductsModel, oRouter;
 
         UIComponent.prototype.init.apply(this, arguments);
@@ -17,11 +30,6 @@ sap.ui.define(
         this.setModel(oModel);
 
         // set products demo model on this sample
-        oProductsModel = new JSONModel(
-          sap.ui.require.toUrl("sap/ui/demo/mock") + "/products.json"
-        );
-        oProductsModel.setSizeLimit(1000);
-        this.setModel(oProductsModel, "products");
 
         oRouter = this.getRouter();
         oRouter.attachBeforeRouteMatched(this._onBeforeRouteMatched, this);
