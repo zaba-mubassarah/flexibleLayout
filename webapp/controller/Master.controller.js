@@ -10,6 +10,13 @@ sap.ui.define(
     "sap/m/SearchField",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
+    "sap/m/Dialog",
+    "sap/m/Button",
+    "sap/m/Label",
+    "sap/m/library",
+
+    "sap/m/Text",
+    "sap/m/TextArea",
   ],
   function (
     Controller,
@@ -21,7 +28,14 @@ sap.ui.define(
     Fragment,
     SearchField,
     JSONModel,
-    MessageToast
+    MessageToast,
+    Dialog,
+    Button,
+    Label,
+    mobileLibrary,
+
+    Text,
+    TextArea
   ) {
     "use strict";
 
@@ -41,6 +55,7 @@ sap.ui.define(
         this.oRouter.attachRouteMatched(this.onRouteMatched, this);
       },
       onRouteMatched: function (oEvent) {
+        console.log("came in");
         var dataFromLocalStorage = JSON.parse(
           localStorage.getItem("ordersInLocal")
         );
@@ -50,7 +65,39 @@ sap.ui.define(
         this.getView().setModel(oOrderModel, "oOrderModel");
         this.getView().getModel().refresh();
       },
-      onDeleteButtonPressed: function (id) {
+
+      onApproveDialogPress: function (id) {
+        console.log("deleted dialog");
+        localStorage.setItem("deletedId", id);
+        var DialogType = mobileLibrary.DialogType;
+        var ButtonType = mobileLibrary.ButtonType;
+        if (!this.oApproveDialog) {
+          this.oApproveDialog = new Dialog({
+            type: DialogType.Message,
+            title: "Confirm",
+            content: new Text({ text: "Do you want to Delete this order?" }),
+            beginButton: new Button({
+              type: ButtonType.Emphasized,
+              text: "Delete",
+              press: function () {
+                this.onDeleteButtonPressed();
+                MessageToast.show("The order is deleted");
+                this.oApproveDialog.close();
+              }.bind(this),
+            }),
+            endButton: new Button({
+              text: "Cancel",
+              press: function () {
+                this.oApproveDialog.close();
+              }.bind(this),
+            }),
+          });
+        }
+
+        this.oApproveDialog.open();
+      },
+
+      onDeleteButtonPressed: function () {
         let dataFromLocalStorage = JSON.parse(
           localStorage.getItem("ordersInLocal")
         );
@@ -60,7 +107,7 @@ sap.ui.define(
           .getData().orderList;
 
         let filterdData = dataFromLocalStorage.orderList.filter((item) => {
-          return item.oderid != id;
+          return item.oderid != localStorage.getItem("deletedId");
         });
         console.log("filterdData", filterdData);
         localStorage.setItem(
@@ -71,6 +118,62 @@ sap.ui.define(
           orderList: filterdData,
         });
         this.getView().setModel(oData, "oOrderModel");
+        this.getView().getModel().refresh();
+      },
+      onStatusChange: function (id, stat) {
+        console.log("status  dialog", stat);
+        if (!stat) {
+          localStorage.setItem("statusChangeId", id);
+          var DialogType = mobileLibrary.DialogType;
+          var ButtonType = mobileLibrary.ButtonType;
+          if (!this.oStatusDialog) {
+            this.oStatusDialog = new Dialog({
+              type: DialogType.Message,
+              title: "Confirm",
+              content: new Text({ text: "Do you want to change the status?" }),
+              beginButton: new Button({
+                type: ButtonType.Emphasized,
+                text: "Yes",
+                press: function () {
+                  this.onStatusChangeConfirm();
+                  MessageToast.show("The status is changed");
+                  this.oStatusDialog.close();
+                }.bind(this),
+              }),
+              endButton: new Button({
+                text: "Cancel",
+                press: function () {
+                  this.oStatusDialog.close();
+                }.bind(this),
+              }),
+            });
+          }
+
+          this.oStatusDialog.open();
+        }
+      },
+      onStatusChangeConfirm: function () {
+        var statChageId = localStorage.getItem("statusChangeId");
+        let localStoragedata = JSON.parse(
+          localStorage.getItem("ordersInLocal")
+        ).orderList;
+
+        const found = localStoragedata.find(
+          (element) => element.oderid == statChageId
+        );
+        console.log("found", found);
+
+        found.status = true;
+        found.delBtnVisible = false;
+        var editedArr = {
+          orderList: localStoragedata,
+        };
+        localStorage.setItem("ordersInLocal", JSON.stringify(editedArr));
+        let oData = new JSONModel({
+          orderList: localStoragedata,
+        });
+        this.getView().setModel(oData, "oOrderModel");
+        this.getView().getModel().refresh();
       },
       onSearch: function (oEvent) {
         var oTableSearchState = [],
@@ -200,15 +303,17 @@ sap.ui.define(
       },
 
       onItemSelected(oEvent) {
-        let oData = oEvent.getParameter("rowContext").getObject();
-        console.log("sadasd", oData);
-        if (oData.status === true) {
-          MessageToast.show("Order already delivered");
-        } else {
-          this.oRouter.navTo("orderForm", {
-            layout: fioriLibrary.LayoutType.TwoColumnsBeginExpanded,
-            orderId: oData.oderid,
-          });
+        if (oEvent.getParameter("rowContext")) {
+          let oData = oEvent.getParameter("rowContext").getObject();
+          console.log("sadasd", oData);
+          if (oData.status === true) {
+            MessageToast.show("Order already delivered");
+          } else {
+            this.oRouter.navTo("orderForm", {
+              layout: fioriLibrary.LayoutType.TwoColumnsBeginExpanded,
+              orderId: oData.oderid,
+            });
+          }
         }
       },
 
@@ -221,7 +326,7 @@ sap.ui.define(
 
         this.oRouter.navTo("orderForm", {
           layout: fioriLibrary.LayoutType.TwoColumnsBeginExpanded,
-          orderId: 0,
+          orderId: "add",
         });
       },
     });

@@ -32,9 +32,67 @@ sap.ui.define(
           sap.ui.require.toUrl("task/shanita/customers.json")
         );
         await this.getView().setModel(oModel);
-        var oCountry = new JSONModel(
-          sap.ui.require.toUrl("task/shanita/country.json")
-        );
+        let countryCityLocal = {
+          countryList: [
+            {
+              countryId: "1",
+              countryName: "Bangladesh",
+              cityList: [
+                {
+                  cityId: "1",
+                  cityName: "Dhaka",
+                },
+                {
+                  cityId: "2",
+                  cityName: "Chattogram",
+                },
+                {
+                  cityId: "3",
+                  cityName: "Sylhet",
+                },
+              ],
+            },
+            {
+              countryId: "2",
+              countryName: "India",
+              cityList: [
+                {
+                  cityId: "4",
+                  cityName: "Gujrat",
+                },
+                {
+                  cityId: "5",
+                  cityName: "Panjab",
+                },
+                {
+                  cityId: "6",
+                  cityName: "kalkata",
+                },
+              ],
+            },
+            {
+              countryId: "3",
+              countryName: "Pakistan",
+              cityList: [
+                {
+                  cityId: "7",
+                  cityName: "Islamabad",
+                },
+                {
+                  cityId: "8",
+                  cityName: "Kashmir",
+                },
+                {
+                  cityId: "9",
+                  cityName: "Karachi",
+                },
+              ],
+            },
+          ],
+        };
+
+        var oCountry = new JSONModel(countryCityLocal);
+        localStorage.setItem("cityLists", JSON.stringify(countryCityLocal));
         await this.getView().setModel(oCountry, "oCountry");
         console.log(this.getView().getModel("oCountry"));
 
@@ -47,17 +105,84 @@ sap.ui.define(
           .getRoute("master")
           .attachPatternMatched(this._onProductMatched, this);
         this.oRouter
-          .getRoute("detail")
+          .getRoute("orderForm")
           .attachPatternMatched(this._onProductMatched, this);
       },
 
       _onProductMatched: function (oEvent) {
-        this._product =
-          oEvent.getParameter("arguments").product || this._product || "0";
-        this.getView().bindElement({
-          path: "/ProductCollection/" + this._product,
-          model: "products",
+        let editID = window.location.hash.split("/")[2];
+        console.log("editID", editID);
+        if (editID == "add") {
+          this.addSystemOn();
+          this.byId("app_input_orderno").setValue(
+            Math.round(Math.random() * 100)
+          );
+        } else {
+          let dataFromLocalStorage = JSON.parse(
+            localStorage.getItem("ordersInLocal")
+          );
+          const result = dataFromLocalStorage.orderList.filter(
+            (item) => item.oderid == editID
+          );
+
+          if (result.length != 0) {
+            this.byId("app_input_orderno").setValue(result[0].oderid);
+            this.byId("app_input_customername").setValue(
+              result[0].customerName
+            );
+
+            let myStr = result[0].address.substr(
+              0,
+              result[0].address.indexOf(",")
+            );
+            let city = result[0].address
+              .substr(result[0].address.indexOf(","))
+              .slice(1);
+
+            let countryData = JSON.parse(
+              localStorage.getItem("cityLists")
+            ).countryList;
+            console.log("countryData", countryData);
+            const cityListByCountry = countryData.filter(
+              (item) => item.countryName == myStr
+            );
+            let oCityModel = new JSONModel({
+              cityLists: cityListByCountry[0].cityList,
+            });
+
+            this.getView().setModel(oCityModel, "oCityModel");
+            console.log("cityListByCountry", cityListByCountry);
+            this.getView().byId("app_input_country").setSelectedKey(myStr);
+            this.getView().byId("app_input_city").setSelectedKey(city);
+
+            this.byId("app_input_date").setValue(result[0].orderDate);
+          }
+          let oEditModel = new JSONModel({
+            editmode: true,
+          });
+          this.getView().setModel(oEditModel, "editModel");
+          let oSaveModel = new JSONModel({
+            saveMode: false,
+          });
+          this.getView().setModel(oSaveModel, "oSaveModel");
+        }
+      },
+      addSystemOn: function () {
+        this.byId("app_input_orderno").setValue("ddsd");
+        let oEditModel = new JSONModel({
+          editmode: false,
         });
+        this.getView().setModel(oEditModel, "editModel");
+        let oSaveModel = new JSONModel({
+          saveMode: true,
+        });
+        this.getView().setModel(oSaveModel, "oSaveModel");
+        this.byId("app_input_orderno").setValue("");
+        this.byId("app_input_customername").setValue("");
+        this.getView().byId("app_input_country").setSelectedItem(null);
+        this.getView().byId("app_input_city").setSelectedItem(null);
+        this.byId("app_input_date").setValue("");
+        console.log("its an add func");
       },
 
       onExit: function () {
@@ -84,9 +209,11 @@ sap.ui.define(
       },
 
       onCancelPressed: function (oEvent) {
-        // var oFCL = this.oView.getParent().getParent().getParent();
-        // console.log("oFCL", oFCL);
-        // oFCL.setLayout(fioriLibrary.LayoutType.OneColumn);
+        this.byId("app_input_orderno").setValue("");
+        this.byId("app_input_customername").setValue("");
+        this.getView().byId("app_input_country").setSelectedItem(null);
+        this.getView().byId("app_input_city").setSelectedItem(null);
+        this.byId("app_input_date").setValue("");
         this.oRouter.navTo("master", {
           layout: fioriLibrary.LayoutType.OneColumn,
         });
@@ -163,16 +290,47 @@ sap.ui.define(
               "ordersInLocal",
               JSON.stringify(localStoragedata2)
             );
-            this.oRouter.navTo("master", {
-              layout: fioriLibrary.LayoutType.OneColumn,
-            });
+
             this.byId("app_input_orderno").setValue("");
             this.byId("app_input_customername").setValue("");
             this.getView().byId("app_input_country").setSelectedItem(null);
             this.getView().byId("app_input_city").setSelectedItem(null);
             this.byId("app_input_date").setValue("");
+            this.oRouter.navTo("master", {
+              layout: fioriLibrary.LayoutType.OneColumn,
+            });
           }
         }
+      },
+      onUpdateCall: function () {
+        let localStoragedata = JSON.parse(
+          localStorage.getItem("ordersInLocal")
+        ).orderList;
+        let editID = window.location.hash.split("/")[2];
+        const found = localStoragedata.find(
+          (element) => element.oderid == editID
+        );
+        console.log("found", found);
+        found.customerName = this.byId("app_input_customername").getValue();
+
+        var countryName = this.getView()
+          .byId("app_input_country")
+          .getSelectedItem()
+          .getText();
+
+        var cityName = this.getView()
+          .byId("app_input_city")
+          .getSelectedItem()
+          .getText();
+        found.address = `${countryName},${cityName}`;
+        found.orderDate = this.byId("app_input_date").getValue();
+        var editedArr = {
+          orderList: localStoragedata,
+        };
+        localStorage.setItem("ordersInLocal", JSON.stringify(editedArr));
+        this.oRouter.navTo("master", {
+          layout: fioriLibrary.LayoutType.OneColumn,
+        });
       },
       onCloseDialog(oEvent) {
         var oSelectedItem = oEvent.getParameter("selectedItem"),

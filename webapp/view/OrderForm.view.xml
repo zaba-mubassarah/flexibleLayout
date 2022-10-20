@@ -17,7 +17,7 @@
                 <f:formElements>
                     <f:FormElement label="Order No">
                         <f:fields>
-                            <Input id="app_input_orderno" value="" />
+                            <Input id="app_input_orderno" value="" enabled="{oSaveModel>/saveMode}" />
                         </f:fields>
                     </f:FormElement>
                     <f:FormElement label="Customer Name">
@@ -31,18 +31,18 @@
                             <items>
                                 <FlexBox id="countryFlexBox" direction="Column" width="100%" class="sapUiTinyMarginEnd">
                                     <Label id="app_label_country" text="Country" labelFor="app_input_country" />
-                                    <Select width="100%" id="app_input_country" selectedKey="{gender}" items="{oCountry>/countryList}" change="onCountryChange" forceSelection="false">
+                                    <Select width="100%" id="app_input_country" selectedKey="" items="{oCountry>/countryList}" change="onCountryChange" forceSelection="false">
                                         <items>
-                                            <core:Item key="{oCountry>countryId>}" text="{oCountry>countryName}" />
+                                            <core:Item key="{oCountry>countryName}" text="{oCountry>countryName}" />
                                         </items>
                                     </Select>
                                 </FlexBox>
                                 <FlexBox id="cityFlexBox" direction="Column" width="100%">
                                     <Label id="app_label_city" text="City" labelFor="app_input_city" />
 
-                                    <Select width="100%" id="app_input_city" selectedKey="{gender}" items="{oCityModel>/cityLists}" forceSelection="false">
+                                    <Select width="100%" id="app_input_city" selectedKey="" items="{oCityModel>/cityLists}" forceSelection="false">
                                         <items>
-                                            <core:Item key="{oCityModel>cityId>}" text="{oCityModel>cityName}" />
+                                            <core:Item key="{oCityModel>cityName}" text="{oCityModel>cityName}" />
                                         </items>
                                     </Select>
                                 </FlexBox>
@@ -59,6 +59,7 @@
         </f:formContainers>
     </f:Form>
     <FlexBox alignItems="Center" id="app_submit" direction="Column" width="100%">
-        <Button id="app_submit_btn" text="Submit" press="onSavePressed" visible="{editModel>/editmode}" />
+        <Button id="app_submit_btn" text="Update" press="onUpdateCall" visible="{editModel>/editmode}" />
+        <Button id="app_new_btn" text="Submit" press="onSavePressed" visible="{oSaveModel>/saveMode}" />
     </FlexBox>
 </mvc:View>

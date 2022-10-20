@@ -29,17 +29,22 @@
                 </template>
             </Column>
             <Column width="9rem">
+                <m:Label text="Date" />
+                <template>
+                    <m:Text text="{oOrderModel>orderDate}" />
+                </template>
+            </Column>
+            <Column width="9rem">
                 <m:Label text="Status" />
                 <template>
-                    <m:Button icon="{= ${oOrderModel>status} === true ? 'sap-icon://accept' :  'sap-icon://notification'}" tooltip="show indices of selected items" press="getSelectedIndices" />
+                    <m:Button icon="{= ${oOrderModel>status} === true ? 'sap-icon://accept' :  'sap-icon://notification'}" press=".onStatusChange(${oOrderModel>oderid},${oOrderModel>status})" tooltip="show indices of selected items" />
                 </template>
             </Column>
             <Column width="9rem">
                 <m:Label text="Action" />
                 <template>
                     <m:HBox>
-                        <m:Button icon="sap-icon://delete" press=".onDeleteButtonPressed(${oOrderModel>oderid})" visible="{oOrderModel>delBtnVisible}" class="sapUiSmallMarginEnd" />
-                        <!-- <m:Button icon="sap-icon://navigation-right-arrow" press=".onItemSelected(${oOrderModel>status},${oOrderModel>oderid})" /> -->
+                        <m:Button icon="sap-icon://delete" press=".onApproveDialogPress(${oOrderModel>oderid})" class="sapUiSmallMarginBottom" ariaHasPopup="Dialog" visible="{oOrderModel>delBtnVisible}" />
                     </m:HBox>
                 </template>
 
