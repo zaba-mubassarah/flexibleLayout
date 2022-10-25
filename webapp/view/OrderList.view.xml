@@ -5,7 +5,7 @@
                 <m:Title id="title" text="Orders" />
                 <m:ToolbarSpacer />
 
-                <m:Button id="OrderList_new_button" icon="sap-icon://add" text="Add" type="Accept" press="onListItemPress" />
+                <m:Button id="OrderList_new_button" icon="sap-icon://add" text="{i18n>add}" type="Accept" press="onListItemPress" />
             </m:OverflowToolbar>
         </extension>
 
@@ -29,7 +29,7 @@
                 </template>
             </Column>
             <Column width="9rem">
-                <m:Label text="Date" />
+                <m:Label text="{i18n>Date}" />
                 <template>
                     <m:Text text="{oOrderModel>orderDate}" />
                 </template>

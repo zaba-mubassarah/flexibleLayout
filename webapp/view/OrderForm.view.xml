@@ -7,7 +7,7 @@
 
     <f:Form id="detail_form" editable="true">
         <f:title>
-            <core:Title text="Add Order" />
+            <core:Title text="{i18n>addForm}" />
         </f:title>
         <f:layout>
             <f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false" />
@@ -15,12 +15,12 @@
         <f:formContainers>
             <f:FormContainer>
                 <f:formElements>
-                    <f:FormElement label="Order No">
+                    <f:FormElement label="{i18n>orderNo}">
                         <f:fields>
                             <Input id="app_input_orderno" value="" enabled="{oSaveModel>/saveMode}" />
                         </f:fields>
                     </f:FormElement>
-                    <f:FormElement label="Customer Name">
+                    <f:FormElement label="{i18n>customerName}">
                         <f:fields>
                             <Input id="app_input_customername" value="" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" width="100%" class="sapUiSmallMarginBottom" />
                         </f:fields>
@@ -30,7 +30,7 @@
                         <FlexBox>
                             <items>
                                 <FlexBox id="countryFlexBox" direction="Column" width="100%" class="sapUiTinyMarginEnd">
-                                    <Label id="app_label_country" text="Country" labelFor="app_input_country" />
+                                    <Label id="app_label_country" text="{i18n>country}" labelFor="app_input_country" />
                                     <Select width="100%" id="app_input_country" selectedKey="" items="{oCountry>/countryList}" change="onCountryChange" forceSelection="false">
                                         <items>
                                             <core:Item key="{oCountry>countryName}" text="{oCountry>countryName}" />
@@ -38,7 +38,7 @@
                                     </Select>
                                 </FlexBox>
                                 <FlexBox id="cityFlexBox" direction="Column" width="100%">
-                                    <Label id="app_label_city" text="City" labelFor="app_input_city" />
+                                    <Label id="app_label_city" text="{i18n>city}" labelFor="app_input_city" />
 
                                     <Select width="100%" id="app_input_city" selectedKey="" items="{oCityModel>/cityLists}" forceSelection="false">
                                         <items>
@@ -49,9 +49,9 @@
                             </items>
                         </FlexBox>
                     </f:FormElement>
-                    <f:FormElement label="Date">
+                    <f:FormElement label="{i18n>Date}">
                         <f:fields>
-                            <DatePicker id="app_input_date" placeholder="Enter Date" class="sapUiSmallMarginBottom" />
+                            <DatePicker id="app_input_date" placeholder="{i18n>enyterDate}" class="sapUiSmallMarginBottom" />
                         </f:fields>
                     </f:FormElement>
                 </f:formElements>
@@ -60,6 +60,6 @@
     </f:Form>
     <FlexBox alignItems="Center" id="app_submit" direction="Column" width="100%">
         <Button id="app_submit_btn" text="Update" press="onUpdateCall" visible="{editModel>/editmode}" />
-        <Button id="app_new_btn" text="Submit" press="onSavePressed" visible="{oSaveModel>/saveMode}" />
+        <Button id="app_new_btn" text="{i18n>Submit}" press="onSavePressed" visible="{oSaveModel>/saveMode}" />
     </FlexBox>
 </mvc:View>

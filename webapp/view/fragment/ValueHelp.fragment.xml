@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-    <TableSelectDialog confirm=".onCloseDialog" cancel=".onCloseDialog" title="Select Customer" items="{/customerList}" search=".handleSearch">
+    <TableSelectDialog confirm=".onCloseDialog" cancel=".onCloseDialog" title="{i18n>selectCustomer}" items="{/customerList}" search=".handleSearch">
         <ColumnListItem selected="{selected}">
             <cells>
                 <Text text="{custId}" />
@@ -11,12 +11,12 @@
         <columns>
             <Column>
                 <header>
-                    <Text text="Customer" />
+                    <Text text="{i18n>customers}" />
                 </header>
             </Column>
             <Column>
                 <header>
-                    <Text text="Customer Name" />
+                    <Text text="{i18n>customerName}" />
                 </header>
             </Column>
             <Column>
@@ -26,7 +26,7 @@
             </Column>
             <Column>
                 <header>
-                    <Text text="Mobile" />
+                    <Text text="{i18n>mobile}" />
                 </header>
             </Column>
         </columns>
